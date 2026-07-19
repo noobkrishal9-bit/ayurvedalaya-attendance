@@ -4,7 +4,7 @@
 // ============================================================
 
 // ── SET THIS TO YOUR DEPLOYED WEB APP URL ─────────────────────
-const GAS_URL = 'const GAS_URL = 'https://script.google.com/macros/s/AKfycbwuP0i50fY5SKmeYYY63MMqbLek-R_jQCMtAvlVyLiWJGfmKLTDcpnQLVLmxLCyHzUY/exec';';  // ← paste your Apps Script URL
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwuP0i50fY5SKmeYYY63MMqbLek-R_jQCMtAvlVyLiWJGfmKLTDcpnQLVLmxLCyHzUY/exec';  // ← paste your Apps Script URL
 
 let syncInProgress = false;
 
@@ -58,11 +58,20 @@ async function attemptSync() {
 async function syncStaffFromServer() {
   if (!navigator.onLine) return;
   try {
-    const res  = await fetch(GAS_URL + '?action=getStaffList');
+    const res  = await fetch(GAS_URL + '?action=getStaffList', { cache: 'no-store' });
     const data = await res.json();
-    if (data.success && data.staff) {
+    if (data.success && data.staff && data.staff.length > 0) {
       await dbClear('staff');
-      for (const s of data.staff) { await dbPut('staff', s); }
+      for (const s of data.staff) {
+        // Only store active staff with valid ID and PIN
+        if (s.staffId && s.pin) {
+          await dbPut('staff', s);
+        }
+      }
+      console.log('Staff synced:', data.staff.length, 'members');
+      showSyncBanner('✅ Staff data loaded — ' + data.staff.length + ' members', true);
+    } else {
+      console.warn('Staff sync returned no data:', data);
     }
   } catch (err) {
     console.warn('Staff sync failed:', err);
@@ -97,6 +106,19 @@ function showSyncStatus(status) {
 document.addEventListener('DOMContentLoaded', () => {
   showSyncStatus(navigator.onLine ? 'online' : 'offline');
   if (navigator.onLine) {
+    // Force staff sync first, then attempt record sync
+    syncStaffFromServer().then(() => {
+      console.log('Staff sync complete');
+      attemptSync();
+    }).catch(err => {
+      console.error('Staff sync failed:', err);
+    });
+  }
+});
+
+// Also sync when page becomes visible again (user switches back to app)
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && navigator.onLine) {
     syncStaffFromServer().then(attemptSync);
   }
 });
