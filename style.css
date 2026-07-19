@@ -1,0 +1,120 @@
+/* ============================================================
+   AYURVEDALAYA PWA — Shared Styles
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --g1: #1a5c38; --g2: #2e8b57; --gp: #e8f5ee;
+  --terra: #b87042;
+  --tx: #1a2e1f; --tm: #3d5a45; --tl: #6b8c72;
+  --w: #ffffff; --r: 14px;
+  --shadow: 0 2px 12px rgba(26,92,56,.10);
+}
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(160deg, #f0f7f2, #e6f0ea);
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding-bottom: 48px;
+}
+/* HEADER */
+.hdr { width:100%; background:var(--w); border-bottom:1px solid #ddeee3;
+  padding:12px 16px 10px; text-align:center; }
+.hdr img { height:56px; display:block; margin:0 auto 4px; object-fit:contain; }
+.hdr-tag { color:var(--tl); font-size:.72rem; }
+.hdr-status { font-size:.72rem; margin-top:3px; font-weight:500; }
+/* CARD */
+.card { background:var(--w); border-radius:var(--r); border:1px solid #ddeee3;
+  width:100%; max-width:420px; margin:16px 14px 0; padding:20px 18px;
+  box-shadow:var(--shadow); }
+/* LABELS & INPUTS */
+.lbl { font-size:.78rem; color:var(--tm); margin-bottom:4px; font-weight:500; }
+.inp { width:100%; padding:11px 14px; border:1.5px solid #c8ddd0; border-radius:10px;
+  font-size:1rem; color:var(--tx); outline:none; transition:border-color .15s;
+  margin-bottom:12px; background:var(--w); }
+.inp:focus { border-color:var(--g2); }
+/* BUTTONS */
+.btn { width:100%; padding:14px 0; border:none; border-radius:12px;
+  font-size:.98rem; font-weight:700; cursor:pointer;
+  transition:opacity .15s,transform .1s; }
+.btn:active { transform:scale(.98); }
+.btn:disabled { opacity:.45; cursor:not-allowed; }
+.btn-green { background:linear-gradient(135deg,var(--g2),var(--g1)); color:var(--w); }
+.btn-outline { background:transparent; border:1.5px solid #ddeee3; color:var(--tl);
+  font-size:.82rem; padding:9px 0; margin-top:10px; }
+/* ACTION GRID */
+.action-grid { display:grid; gap:10px; margin-bottom:10px; }
+.two-col { grid-template-columns:1fr 1fr; }
+.btn-action { padding:14px 6px; border:none; border-radius:12px;
+  font-size:.88rem; font-weight:700; cursor:pointer;
+  transition:transform .1s; display:flex; flex-direction:column;
+  align-items:center; gap:3px; }
+.btn-action:active { transform:scale(.97); }
+.btn-action .icon { font-size:1.2rem; }
+.btn-action .lbl2 { font-size:.68rem; opacity:.75; }
+.btn-start   { background:linear-gradient(135deg,var(--g2),var(--g1)); color:var(--w); }
+.btn-tempout { background:#fff3cd; color:#856404; border:1px solid #ffc107; }
+.btn-return  { background:#cce5ff; color:#004085; border:1px solid #b8daff; }
+.btn-endday  { background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; }
+/* STATUS BADGE */
+.sbadge { display:inline-flex; align-items:center; gap:6px; border-radius:99px;
+  padding:5px 14px; font-size:.84rem; font-weight:600; margin-bottom:14px; }
+.s-OFF     { background:#fdecea; color:#c0392b; }
+.s-WORKING { background:#e6f4ea; color:#1e7e34; }
+.s-OUTSIDE { background:#fff8e1; color:#b7860b; }
+/* STATS */
+.stats { display:flex; gap:8px; margin-bottom:18px; }
+.stat { flex:1; background:var(--gp); border-radius:11px; padding:11px 6px; text-align:center; }
+.stat-v { font-size:1.1rem; font-weight:700; color:var(--g1); }
+.stat-l { font-size:.68rem; color:var(--tl); margin-top:2px; }
+/* USER INFO */
+.usr-name { font-size:1.1rem; font-weight:700; color:var(--tx); }
+.usr-sub  { font-size:.76rem; color:var(--tl); margin-top:2px; margin-bottom:12px; }
+/* TOAST */
+.toast { position:fixed; top:14px; left:50%;
+  transform:translateX(-50%) translateY(-90px);
+  background:var(--w); border-radius:13px; border:1px solid #ddeee3;
+  box-shadow:0 6px 24px rgba(0,0,0,.12); padding:12px 18px;
+  font-size:.88rem; font-weight:600; text-align:center;
+  max-width:290px; width:88%; z-index:9999;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  border-left:4px solid var(--g2); }
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.err  { border-left-color:#e74c3c; }
+/* LOADING */
+.ov { display:none; position:fixed; inset:0; background:rgba(255,255,255,.72);
+  z-index:8888; align-items:center; justify-content:center;
+  flex-direction:column; gap:10px; }
+.ov.show { display:flex; }
+.sp { width:38px; height:38px; border:4px solid #d0e8d8;
+  border-top-color:var(--g2); border-radius:50%;
+  animation:spin .7s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+/* OFFLINE BADGE */
+.offline-badge { background:#fdecea; color:#c0392b; border-radius:6px;
+  padding:3px 8px; font-size:.72rem; font-weight:600;
+  display:none; margin-top:4px; }
+.offline-badge.show { display:inline-block; }
+/* MANAGER — tables */
+.tbl { width:100%; border-collapse:collapse; font-size:.82rem; margin-top:10px; }
+.tbl th { background:#1a5276; color:#fff; padding:8px 6px; text-align:left; }
+.tbl td { padding:7px 6px; border-bottom:1px solid #eef3f0; color:var(--tx); }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:#f5faf6; }
+.btn-sm { padding:4px 10px; font-size:.75rem; border-radius:6px; cursor:pointer;
+  border:none; font-weight:600; }
+.btn-edit   { background:#fff3cd; color:#856404; }
+.btn-delete { background:#f8d7da; color:#721c24; }
+.btn-add    { background:var(--gp); color:var(--g1); border:1px solid #c8ddd0; }
+/* SECTION TITLE */
+.sec-title { font-size:.72rem; font-weight:600; text-transform:uppercase;
+  letter-spacing:.8px; color:var(--tl); margin-bottom:10px; margin-top:18px; }
+/* MODAL */
+.modal-overlay { display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.45); z-index:9000; align-items:center;
+  justify-content:center; padding:16px; }
+.modal-overlay.show { display:flex; }
+.modal { background:var(--w); border-radius:var(--r); padding:22px 20px;
+  width:100%; max-width:380px; box-shadow:0 8px 32px rgba(0,0,0,.2); }
+.modal-title { font-size:1rem; font-weight:700; color:var(--tx); margin-bottom:14px; }
+.modal-actions { display:flex; gap:8px; margin-top:14px; }
+.modal-actions .btn { flex:1; padding:11px 0; }
+select.inp { appearance:none; }
