@@ -4,8 +4,7 @@
 // ============================================================
 
 // ── SET THIS TO YOUR DEPLOYED WEB APP URL ─────────────────────
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwuP0i50fY5SKmeYYY63MMqbLek-R_jQCMtAvlVyLiWJGfmKLTDcpnQLVLmxLCyHzUY/exec
-';  // ← paste your Apps Script URL
+const GAS_URL = 'const GAS_URL = 'https://script.google.com/macros/s/AKfycbwuP0i50fY5SKmeYYY63MMqbLek-R_jQCMtAvlVyLiWJGfmKLTDcpnQLVLmxLCyHzUY/exec';';  // ← paste your Apps Script URL
 
 let syncInProgress = false;
 
