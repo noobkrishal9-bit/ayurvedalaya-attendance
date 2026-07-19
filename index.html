@@ -49,7 +49,35 @@ if ('serviceWorker' in navigator) {
 // ── STATE ────────────────────────────────────────────────────
 const S = { staffId:'', pin:'', staff:null, loc:null, locStatus:'idle' };
 
-window.addEventListener('load', () => { renderLogin(); getLocation(); });
+window.addEventListener('load', async () => {
+  getLocation();
+  // Show loading while we sync staff data
+  document.getElementById('card').innerHTML =
+    '<div style="text-align:center;padding:24px;color:#6b8c72">' +
+    '<div class="sp" style="margin:0 auto 12px"></div>' +
+    '<div style="font-size:.9rem">Loading staff data…</div>' +
+    '</div>';
+
+  if (navigator.onLine) {
+    try {
+      await syncStaffFromServer();
+    } catch(e) {
+      console.warn('Initial staff sync failed:', e);
+    }
+  }
+
+  // Check if we have any staff at all
+  const staff = await getAllActiveStaff();
+  if (staff.length === 0 && navigator.onLine) {
+    // Try one more time
+    try { await syncStaffFromServer(); } catch(e) {}
+  }
+
+  const staffCount = (await getAllActiveStaff()).length;
+  renderLogin(staffCount === 0 && !navigator.onLine
+    ? 'No internet — using cached data. Connect once to load staff.'
+    : null);
+});
 
 // ── LOCATION ─────────────────────────────────────────────────
 // Two verified locations - update coords as needed
